@@ -4,36 +4,48 @@ DECISION_BUY = "BUY"
 DECISION_HOLD = "HOLD"
 DECISION_SELL ="SELL"
 
-def get_share_count(budget, live_price):
+def calculate_share_count(budget, live_price):
     return round(budget/live_price, 2)
 
-def get_recommendation(live_price, week_ago_price):
-    price_change = round(live_price-week_ago_price, 2)
-    print("---> Price change in last 7 days:",price_change,"USD")
+def get_recommendation(live_price, historical_price, historical_date):
+    price_change = round(live_price-historical_price, 2)
+    gain=round(price_change/historical_price*100, 2)
+    print(f"---> Price change since {historical_date}:",price_change,"USD")
+    print("---> Stock has moved by: ",gain,"%")
     if price_change < 0:
-        print("---> Recommended:", DECISION_BUY)
-        budget = float(input("---> What's your budget?\n"))
-        print("---> You can buy", get_share_count(budget, live_price), "shares and average down.")
+        print("---> Recommendation:", DECISION_BUY)
+        try:
+            budget = float(input("---> What's your budget?\n"))
+        except ValueError:
+            print("Please enter a number in USD.\n")
+            return
+        print("---> You can buy", calculate_share_count(budget, live_price), "shares and average down.")
     elif price_change == 0:
-        print("---> Recommended:", DECISION_HOLD)
+        print("---> Recommendation:", DECISION_HOLD)
         print("---> Price is unchanged. Wait for movement or hold what you have.")
     else:
         print("---> Recommended:", DECISION_SELL)
-        gain_percentage=price_change/week_ago_price*100
-        print("---> You can gain", price_change, "USD (+",round(gain_percentage, 2),"%) per share right now.")
+        print("---> You can gain", price_change, "USD per share right now.")
 
-print("----------CURRENCY: USD----------")
-company = input("Which company do you want recommendations on?\n")
-date_range_in_days = int(input("How many days ago did you invest?\n"))
-stock = yf.Ticker(yf.Search(company).quotes[0]["symbol"])
-week_ago_price = stock.history(period="5y")["Close"].iloc[-date_range_in_days]
-live_price = stock.fast_info["last_price"]
-get_recommendation(live_price, week_ago_price)
+def main():
+    print("\n----------TRADE RECOMMENDATIONS FOR NASDAQ (USD)----------")
+    valid_company = True
+    company = input("Which company do you want recommendations on?\n")
+    while True:
+        try:
+            historical_date = input("When did you invest? (YYYY-MM-DD)\n")
+            break;
+        except ValueError:
+            print("Please enter a number.\n")
+    while True:
+        try:
+            stock = yf.Ticker(yf.Search(company).quotes[0]["symbol"])
+            break;
+        except:
+            print("Company could not be identified. Try a different name.")
+    historical_price = stock.history(period="5y")["Close"].loc[:historical_date].iloc[-1]
+    live_price = stock.fast_info["last_price"]
+    get_recommendation(live_price, historical_price, historical_date)
 
-
-
-
-
-
-
-
+if __name__ == "__main__":
+    main()
