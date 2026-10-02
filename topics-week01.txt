@@ -1,0 +1,34 @@
+
+-------------------- TOPICS COVERED --------------------
+
+Updated: 02-Oct-2026
+
+1. Python fundamentals 
+— variables, constants, data types, input/conversion, strings/f-strings, arithmetic.
+
+2. Control flow 
+— if/elif/else, Boolean logic, for/while loops, break, indentation.
+
+3. Functions & program structure 
+— functions, parameters, arguments, return, main(), __name__ == "__main__", modules/imports.
+
+4. Data structures 
+— lists, dictionaries, indexing, lists of dictionaries, structured data.
+
+5. Error handling 
+— try/except, ValueError, exception flow, validation, boolean flags.
+
+6. Objects & libraries 
+— objects, methods/properties, installing/importing external libraries, yfinance.
+
+7. External data / APIs 
+— company search, ticker lookup, historical/current market data, interpreting API responses.
+
+8. Git & GitHub 
+— basic version control and pushing code to a repository.
+
+9. Application architecture 
+— separating UI, business logic, persistent data/database, and external data sources.
+
+10. Project direction 
+— moving from a standalone script toward a database-backed web portfolio application.
