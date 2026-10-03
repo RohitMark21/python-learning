@@ -1,3 +1,6 @@
+#---> TEST command: 
+#---> python3 practice/training_lists.py
+
 stocks = ["AAPL", "MSFT", "GOOGL", "NVDA", "TSLA"]
 print ("Stock #4: ", stocks[3])
 print ("No. of items: ", len(stocks))
